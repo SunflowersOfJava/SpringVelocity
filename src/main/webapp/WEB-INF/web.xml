@@ -1,27 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-    id="WebApp_ID" version="3.0">
-    <display-name>Archetype Created Web Application</display-name>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>Archetype Created Web Application</display-name>
 
-    <listener>
-        <description>spring</description>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
 
-    <!-- spring mvc servlet -->
-    <servlet>
-        <servlet-name>springServlet</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <description>spring mvc</description>
-            <param-name>contextConfigLocation</param-name>          
-            <param-value>/WEB-INF/spring-servlet.xml</param-value> <!-- spring-servlet 配置路径 -->
-        </init-param>
-    </servlet>
+	<!-- DruidStatView start -->
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<!-- 允许访问的IP地址 -->
+		<!-- <init-param> <param-name>allow</param-name> <param-value>192.168.28.94,192.168.28.100</param-value> 
+			</init-param> -->
+		<!-- 拒绝访问的IP地址 -->
+		<!-- <init-param> <param-name>deny</param-name> <param-value>192.168.28.110</param-value> 
+			</init-param> -->
+		<init-param>
+			<!-- 允许清空统计数据 -->
+			<param-name>resetEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<!-- 用户名 -->
+			<param-name>loginUsername</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+		<init-param>
+			<!-- 密码 -->
+			<param-name>loginPassword</param-name>
+			<param-value>wlyd_druid</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>springServlet</servlet-name>
-        <url-pattern>*.html</url-pattern> <!-- 以html结尾的url将会交给springServlet来处理  -->
-    </servlet-mapping>
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		<!-- 经常需要排除一些不必要的url，比如*.js,/jslib/*等等 -->
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+		</init-param>
+		<!-- 缺省sessionStatMaxCount是1000个。 -->
+		<init-param>
+			<param-name>sessionStatMaxCount</param-name>
+			<param-value>1000</param-value>
+		</init-param>
+		<!-- 你可以关闭session统计功能 -->
+		<init-param>
+			<param-name>sessionStatEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<!-- 配置principalSessionName，使得druid能够知道当前的session的用户是谁 -->
+		<init-param>
+			<param-name>principalSessionName</param-name>
+			<param-value>sessionBackUser</param-value>
+		</init-param>
+		<!-- 如果你的user信息保存在cookie中，你可以配置principalCookieName，使得druid知道当前的user是谁 -->
+		<init-param>
+			<param-name>principalCookieName</param-name>
+			<param-value>username</param-value>
+		</init-param>
+		<!-- druid 0.2.7版本开始支持profile，配置profileEnable能够监控单个url调用的sql列表 -->
+		<init-param>
+			<param-name>profileEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- DruidStatView end -->
+
+
+	<listener>
+		<description>spring</description>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- spring mvc servlet -->
+	<servlet>
+		<servlet-name>springServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<description>spring mvc</description>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring-servlet.xml</param-value> <!-- spring-servlet 配置路径 -->
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>springServlet</servlet-name>
+		<url-pattern>*.html</url-pattern> <!-- 以html结尾的url将会交给springServlet来处理 -->
+	</servlet-mapping>
 </web-app>

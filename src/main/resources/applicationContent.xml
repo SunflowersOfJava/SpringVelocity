@@ -13,59 +13,83 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-	<context:component-scan base-package="com.boonya.pro.service.*" /> 
+
+	<context:component-scan base-package="com.boonya.base.service.*" />
+
+	<!-- Druid 配置 start -->
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	</bean>
+
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.boonya.base.service.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<aop:config>
+		<aop:advisor advice-ref="druid-stat-interceptor"
+			pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations" value="classpath*:jdbc.properties" />
 	</bean>
-	 <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
-    destroy-method="close" >
-    <property name="driverClassName">
-      <value>${jdbc.driverClass}</value>
-    </property>
-    <property name="url">
-      <value>${jdbc.jdbcUrl}</value>
-    </property>
-    <property name="username">
-      <value>${jdbc.user}</value>
-    </property>
-    <property name="password">
-      <value>${jdbc.password}</value>
-    </property>
-    <!-- 连接池最大使用连接数 -->
-    <property name="maxActive">
-      <value>20</value>
-    </property>
-    <!-- 初始化连接大小 -->
-    <property name="initialSize">
-      <value>1</value>
-    </property>
-    <!-- 获取连接最大等待时间 -->
-    <property name="maxWait">
-      <value>60000</value>
-    </property>
-    <!-- 连接池最大空闲 -->
-    <property name="maxIdle">
-      <value>20</value>
-    </property>
-    <!-- 连接池最小空闲 -->
-    <property name="minIdle">
-      <value>3</value>
-    </property>
-    <!-- 自动清除无用连接 -->
-    <property name="removeAbandoned">
-      <value>true</value>
-    </property>
-    <!-- 清除无用连接的等待时间 -->
-    <property name="removeAbandonedTimeout">
-      <value>180</value>
-    </property>
-    <!-- 连接属性 -->
-    <property name="connectionProperties">
-      <value>clientEncoding=UTF-8</value>
-    </property>
-  </bean>
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driverClass}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.jdbcUrl}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.user}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<!-- 连接池最大使用连接数 -->
+		<property name="maxActive">
+			<value>100</value>
+		</property>
+		<!-- 初始化连接大小 -->
+		<property name="initialSize">
+			<value>10</value>
+		</property>
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait">
+			<value>60000</value>
+		</property>
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle">
+			<value>50</value>
+		</property>
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle">
+			<value>10</value>
+		</property>
+		<!-- 自动清除无用连接 -->
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<!-- 清除无用连接的等待时间 -->
+		<property name="removeAbandonedTimeout">
+			<value>1800</value>
+		</property>
+		<!-- 连接属性 -->
+		<property name="connectionProperties">
+			<value>clientEncoding=UTF-8</value>
+		</property>
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="wall,stat" />
+	</bean>
+	<!-- Druid 配置 end -->
+	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
@@ -76,7 +100,7 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.boonya.pro.persistence.mapper" />
+		<property name="basePackage" value="com.wlyd.fmcgwms.persistence.mapper" />
 	</bean>
 
 	<bean name="transactionManager"
@@ -92,8 +116,8 @@
 				rollback-for="java.lang.Exception" />
 			<tx:method name="update*" propagation="REQUIRED" read-only="false"
 				rollback-for="java.lang.Exception" />
-			<tx:method name="execute*" propagation="REQUIRED" read-only="false"
-				rollback-for="java.lang.Exception" />
+			<tx:method name="execute*" propagation="REQUIRED"
+				read-only="false" rollback-for="java.lang.Exception" />
 			<tx:method name="*" propagation="REQUIRED" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
@@ -101,12 +125,9 @@
 	<!-- 事务拦截 -->
 	<aop:config>
 		<aop:pointcut id="pc"
-			expression="execution(* com.boonya.pro.service..*(..))" />
+			expression="execution(* com.boonya.base.service..*(..))" />
 		<aop:advisor pointcut-ref="pc" advice-ref="txAdvice" />
 	</aop:config>
 
-	<!-- 初始化基础数据  -->
-	<bean id="InitSysProperties" class="com.boonya.pro.util.sysinit.InitSysProperties" /> 
-    
-    
-	</beans> 
+
+</beans> 

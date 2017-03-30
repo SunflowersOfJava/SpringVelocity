@@ -5,15 +5,11 @@
 	<settings>
 		<setting name="cacheEnabled" value="true" />
 	</settings>
-<!-- 	<typeAliases>
-	<typeAlias type=""/>
-	<typeAlias type="com.boonya.pro.persistence.beans.EsUser" alias="esuser"/>
-	</typeAliases> -->
-	<!-- <plugins>
-		配置数据库类型 分页截取关键字
-		<plugin interceptor="com.boonya.pro.util.mybatis.PagePlugin">
+	<plugins>
+		<!--配置数据库类型 分页截取关键字-->
+		<plugin interceptor="com.boonya.base.utils.mybatis.PagePlugin">
 			<property name="dialect" value="mysql" />
 			<property name="pageSqlId" value=".*listPage.*" />
 		</plugin>
 	</plugins>
- --></configuration>
+</configuration>
