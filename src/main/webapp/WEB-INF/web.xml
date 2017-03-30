@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    id="WebApp_ID" version="3.0">
+    <display-name>Archetype Created Web Application</display-name>
+
+    <listener>
+        <description>spring</description>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- spring mvc servlet -->
+    <servlet>
+        <servlet-name>springServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <description>spring mvc</description>
+            <param-name>contextConfigLocation</param-name>          
+            <param-value>/WEB-INF/spring-servlet.xml</param-value> <!-- spring-servlet 配置路径 -->
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springServlet</servlet-name>
+        <url-pattern>*.html</url-pattern> <!-- 以html结尾的url将会交给springServlet来处理  -->
+    </servlet-mapping>
+</web-app>

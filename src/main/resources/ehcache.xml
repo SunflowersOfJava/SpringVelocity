@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 分布式缓存对象同步  采用RMI方式  官方还提供其他同步方式  此处略 -->
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true">
+
+ 	<!-- <diskStore path="java.io.tmpdir" /> -->
+	<!--1. 指定除自身之外的网络群体中其他提供同步的主机列表，用“|”分开不同的主机 -->
+	<!-- <cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=manual,rmiUrls=//10.100.0.60:40004/metaCache" /> -->
+
+	<!--2. 配宿主主机配置监听程序，来发现其他主机发来的同步请求 -->
+	<!-- <cacheManagerPeerListenerFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+		properties="port=40004,socketTimeoutMillis=120000" />此处默认8000端口 -->
+	
+	<!-- 默认缓存 -->
+	<defaultCache 
+		maxElementsInMemory="10000" 
+		eternal="false"
+		timeToIdleSeconds="1800" 
+		overflowToDisk="true"
+		diskSpoolBufferSizeMB="30" 
+		maxElementsOnDisk="10000000"
+		diskPersistent="false" 
+		diskExpiryThreadIntervalSeconds="120"
+		memoryStoreEvictionPolicy="LRU">
+	</defaultCache>
+	
+	<!-- 缓存 -->
+	<cache name="metaCache" 
+		maxElementsInMemory="1000" 
+		eternal="false"
+		timeToIdleSeconds="0" 
+		overflowToDisk="false"
+		diskSpoolBufferSizeMB="30" 
+		maxElementsOnDisk="10000000"
+		diskPersistent="false" 
+		diskExpiryThreadIntervalSeconds="120"
+		memoryStoreEvictionPolicy="LRU">
+		<!-- <cacheEventListenerFactory
+    			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+ 			properties="replicateAsynchronously=true, 
+ 						replicatePuts=false, 
+ 						replicateUpdates=true,
+ 						replicateUpdatesViaCopy=true, 
+ 						replicateRemovals=true "/>
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"
+			properties="bootstrapAsynchronously=false" /> -->
+	</cache>
+</ehcache>
