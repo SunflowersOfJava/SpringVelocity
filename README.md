@@ -2,7 +2,9 @@
 
 Here is a very simple example.
 
-#@Controller
+# Controller
+
+###
 @Controller
 public class SpringVelocityController  {
   
@@ -18,15 +20,18 @@ public class SpringVelocityController  {
   }
 
 }
+###
+
 # The vm Templates
 
 The vm templates are in /SpringVelocity/src/main/webapp/WEB-INF/templates dir.Here only contains a 'velocity.vm' file.
 
-##content in velocity.vm
+content in velocity.vm
 
+###
 <ul>
 #foreach( $entry in $list )
     <li>$entry</li>
 #end
 </ul>
-
+###
