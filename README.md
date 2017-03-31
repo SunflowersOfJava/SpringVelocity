@@ -9,3 +9,9 @@ Controller code is:/SpringVelocity/src/main/java/com/boonya/spring/mvc/velocity/
 # VM Templates
 
 The vm templates are in /SpringVelocity/src/main/webapp/WEB-INF/templates dir.Here only contains a 'velocity.vm' file.
+
+# Run on server 
+
+http://localhost:8080/SpringVelocity/velocity.html
+
+![Index-page](https://github.com/SunflowersOfJava/SpringVelocity/raw/master/img/menu.jpg)
