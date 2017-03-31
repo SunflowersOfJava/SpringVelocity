@@ -15,11 +15,12 @@ public class SpringVelocityController  {
   public ModelAndView velocityView(HttpServletRequest req, HttpServletResponse resp) throws Exception {
       System.out.println("------------ enter SpringVelocityController");
 
-      List<String> list = new ArrayList<String>();
-      list.add("a");
-      list.add("b");
-      list.add("c");
-      return new ModelAndView("velocity", "list", list);// velocity:即SpringVelocity/src/main/webapp/WEB-INF/templates/velocity.vm
+      List<String> menus = new ArrayList<String>();
+      menus.add("HOME");
+      menus.add("NEWS");
+      menus.add("CONTACT");
+      menus.add("ABOUT");
+      return new ModelAndView("velocity", "menus", menus);// velocity:即SpringVelocity/src/main/webapp/WEB-INF/templates/velocity.vm
   }
 
 }

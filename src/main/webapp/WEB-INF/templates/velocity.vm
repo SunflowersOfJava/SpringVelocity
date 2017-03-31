@@ -1,5 +1,44 @@
-<ul>
-#foreach( $entry in $list )
-    <li>$entry</li>
-#end
-</ul>
+<!DOCTYPE html>  
+    <html>  
+        <head>  
+            <style>  
+                ul {  
+                    list-style-type: none;  
+                    margin: 0px;  
+                    padding: 0px;  
+                    overflow: hidden;  
+                }  
+                li {  
+                    float: left;  
+                }  
+                a:link, a:visited {  
+                    display: block;  
+                    width: 180px;  
+                    height:25px;  
+                    font-weight: bold;  
+                    color: #FFFFFF;  
+                    background-color: #575351;
+                    text-align: center;  
+                    padding: 15px ;  
+                    text-decoration: none;  
+                    text-transform: uppercase;  
+                      
+                }  
+                a:hover, a:active {  
+                    background-color: #cc0000;  
+                    border-radius:3px;  
+                }  
+      
+            </style>  
+        </head>  
+      
+        <body>  
+            <ul>  
+                #foreach( $menu in $menus )
+	                <li>  
+	                    <a href="#$menu">$menu</a>  
+	                </li>  
+	             #end
+            </ul>  
+        </body>  
+    </html>  
