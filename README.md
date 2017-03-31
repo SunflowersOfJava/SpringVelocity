@@ -14,4 +14,4 @@ The vm templates are in /SpringVelocity/src/main/webapp/WEB-INF/templates dir.He
 
 http://localhost:8080/SpringVelocity/velocity.html
 
-![menu](https://github.com/SunflowersOfJava/SpringVelocity/raw/master/img/menu.jpg)
+![menu](https://github.com/SunflowersOfJava/SpringVelocity/raw/master/img/menu.png)
